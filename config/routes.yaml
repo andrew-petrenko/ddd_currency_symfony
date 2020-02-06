@@ -1,0 +1,12 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+controllers:
+  resource: '../src/Controller'
+  type: 'annotation'
+
+currency:
+  path: /currency
+  controller: App\Controller\CurrencyController::index
+  methods: GET
