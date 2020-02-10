@@ -25,22 +25,20 @@ abstract class AbstractCurrencyResponseParser implements CurrencyResponseParserI
         $this->addValidToCollection($decodedResponse);
     }
 
-    public function getCollection(): CurrencyCollection
+    public function getParsedCollection(): CurrencyCollection
     {
         return $this->currencyCollection;
     }
 
     protected function addValidToCollection(array $data): void
     {
-        $validItems = array_filter($data, function($item) {
-            return $this->validate($item);
-        });
-
-        array_map(function ($item) {
-            $this->currencyCollection->add(
-                $this->makeCurrency($item)
-            );
-        }, $validItems);
+        foreach ($data as $item) {
+            if ($this->validate($item)) {
+                $this->currencyCollection->add($this->makeCurrency($item));
+            } elseif (count($this->currencyCollection->getCollection()) > 3) {
+                break;
+            }
+        }
     }
 
     abstract protected function makeCurrency(\stdClass $item): Currency;

@@ -9,5 +9,5 @@ interface CurrencyResponseParserInterface
 {
     public function parse(ResponseData $responseData): void;
 
-    public function getCollection(): CurrencyCollection;
+    public function getParsedCollection(): CurrencyCollection;
 }

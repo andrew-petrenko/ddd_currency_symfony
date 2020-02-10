@@ -32,6 +32,6 @@ class CurrencyService implements CurrencyServiceInterface
         $responseData = $this->currencyRequester->request();
         $this->responseParser->parse($responseData);
 
-        return $this->responseParser->getCollection();
+        return $this->responseParser->getParsedCollection();
     }
 }

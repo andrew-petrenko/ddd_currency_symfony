@@ -9,8 +9,17 @@ class CurrencyCollection
      */
     private $currencies;
 
-    public function __construct(Currency ...$currencies)
+    /**
+     * @param Currency[] $currencies
+     */
+    public function __construct(array $currencies = [])
     {
+        foreach ($currencies as $currency) {
+            if (!$currency instanceof Currency) {
+                throw new \InvalidArgumentException('Invalid object type passed to CurrencyCollection');
+            }
+        }
+
         $this->currencies = $currencies;
     }
 
