@@ -6,6 +6,7 @@ use Domain\Currency\Contracts\CurrencyRequesterInterface;
 use Domain\Currency\Exceptions\FailedToConnectToBankException;
 use Domain\Gateway\Contracts\GatewayServiceInterface;
 use Domain\Gateway\Exceptions\FailedToConnectException;
+use Domain\Gateway\Exceptions\InvalidRequestMethodException;
 use Domain\Gateway\GatewayService;
 use Domain\Gateway\ResponseData;
 
@@ -26,12 +27,18 @@ abstract class AbstractCurrencyRequester implements CurrencyRequesterInterface
      */
     protected static $url;
 
+    /**
+     * @throws InvalidRequestMethodException
+     */
     public function __construct(GatewayServiceInterface $gateway)
     {
         $this->gateway = $gateway;
         $this->prepareConnection();
     }
 
+    /**
+     * @throws FailedToConnectToBankException
+     */
     public function request(): ResponseData
     {
         try {
@@ -43,6 +50,9 @@ abstract class AbstractCurrencyRequester implements CurrencyRequesterInterface
         return $connection->getResponseData();
     }
 
+    /**
+     * @throws InvalidRequestMethodException
+     */
     protected function prepareConnection(): void
     {
         $this->gateway
