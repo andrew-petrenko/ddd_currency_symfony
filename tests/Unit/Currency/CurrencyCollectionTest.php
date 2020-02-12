@@ -12,13 +12,14 @@ class CurrencyCollectionTest extends TestCase
     {
         $collection = new CurrencyCollection($this->validInstances());
 
-        $this->assertEachInstanceOf(Currency::class, $collection);
+        $this->assertContainsOnly(Currency::class, $collection->getCollection());
     }
 
     public function testCollectionCanNotContainsInvalidInstances()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new CurrencyCollection($this->invalidInstances());
+        $collection = new CurrencyCollection($this->invalidInstances());
+        $this->assertEmpty($collection->getCollection());
     }
 
     public function testCurrencyCanBeAddedToCollection()
@@ -26,20 +27,13 @@ class CurrencyCollectionTest extends TestCase
         $collection = new CurrencyCollection();
         $collection->add($this->createMock(Currency::class));
 
-        $this->assertEachInstanceOf(Currency::class, $collection);
+        $this->assertContainsOnly(Currency::class, $collection->getCollection());
     }
 
     public function testCurrenciesCanBeObtainedFromCollection()
     {
         $collection = new CurrencyCollection($this->validInstances());
         $this->assertContainsOnly(Currency::class, $collection->getCollection());
-    }
-
-    protected function assertEachInstanceOf(string $class, CurrencyCollection $collection)
-    {
-        foreach ($collection->getCollection() as $item) {
-            $this->assertInstanceOf($class, $item);
-        }
     }
 
     protected function validInstances(): array
