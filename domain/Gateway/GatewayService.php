@@ -2,11 +2,12 @@
 
 namespace Domain\Gateway;
 
+use Domain\Gateway\Contracts\GatewayServiceInterface;
 use Domain\Gateway\Exceptions\FailedToConnectException;
 use Domain\Gateway\Exceptions\InvalidRequestMethodException;
 use GuzzleHttp\Client;
 
-class GatewayService
+class GatewayService implements GatewayServiceInterface
 {
     /**
      * @var string
@@ -33,20 +34,28 @@ class GatewayService
      */
     protected $responseData;
 
-    public function __construct(string $requestMethod, string $url)
+    /**
+     * @throws InvalidRequestMethodException
+     */
+    public function setMethod(string $requestMethod): GatewayServiceInterface
     {
-        if (!in_array(strtoupper($requestMethod), static::$validMethods)) {
-            throw new InvalidRequestMethodException();
-        }
-
+        $this->validateMethod($requestMethod);
         $this->requestMethod = strtoupper($requestMethod);
+
+        return $this;
+    }
+
+    public function setUrl(string $url): GatewayServiceInterface
+    {
         $this->url = $url;
+
+        return $this;
     }
 
     /**
      * @throws FailedToConnectException
      */
-    public function connect(): self
+    public function connect(): GatewayServiceInterface
     {
         try {
             $response = (new Client())->request($this->requestMethod, $this->url);
@@ -62,5 +71,15 @@ class GatewayService
     public function getResponseData(): ResponseData
     {
         return $this->responseData;
+    }
+
+    /**
+     * @throws InvalidRequestMethodException
+     */
+    protected function validateMethod(string $requestMethod)
+    {
+        if (!in_array(strtoupper($requestMethod), static::$validMethods)) {
+            throw new InvalidRequestMethodException();
+        }
     }
 }

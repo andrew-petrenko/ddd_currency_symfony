@@ -8,11 +8,12 @@ use Domain\Transformer\AbstractTransformer;
 class CurrencyTransformer extends AbstractTransformer
 {
     /**
-     * @param Currency $currency
+     * @param object $currency
      * @return array
      */
     public function transform(object $currency): array
     {
+        /** @var Currency $currency */
         return [
             'name' => $currency->getName(),
             'date' => $currency->getDate()->format('Y-m-d'),

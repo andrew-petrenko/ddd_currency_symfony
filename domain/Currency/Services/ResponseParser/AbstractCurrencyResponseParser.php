@@ -21,7 +21,7 @@ abstract class AbstractCurrencyResponseParser implements CurrencyResponseParserI
 
     public function parse(ResponseData $responseData): void
     {
-        $decodedResponse = $responseData->getDecodedResponse();
+        $decodedResponse = $responseData->getDecodedResponseContent();
         $this->addValidToCollection($decodedResponse);
     }
 

@@ -16,7 +16,12 @@ class ResponseData
         $this->response = $response;
     }
 
-    public function getDecodedResponse(): array
+    public function getResponse(): ResponseInterface
+    {
+        return $this->response;
+    }
+
+    public function getDecodedResponseContent(): array
     {
         return json_decode($this->response->getBody()->getContents());
     }

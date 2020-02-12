@@ -4,6 +4,7 @@ namespace Domain\Currency\Services\Requester;
 
 use Domain\Currency\Contracts\CurrencyRequesterInterface;
 use Domain\Currency\Exceptions\FailedToConnectToBankException;
+use Domain\Gateway\Contracts\GatewayServiceInterface;
 use Domain\Gateway\Exceptions\FailedToConnectException;
 use Domain\Gateway\GatewayService;
 use Domain\Gateway\ResponseData;
@@ -25,12 +26,10 @@ abstract class AbstractCurrencyRequester implements CurrencyRequesterInterface
      */
     protected static $url;
 
-    public function __construct()
+    public function __construct(GatewayServiceInterface $gateway)
     {
-        $this->gateway = new GatewayService(
-            static::$method,
-            static::$url
-        );
+        $this->gateway = $gateway;
+        $this->prepareConnection();
     }
 
     public function request(): ResponseData
@@ -42,5 +41,12 @@ abstract class AbstractCurrencyRequester implements CurrencyRequesterInterface
         }
 
         return $connection->getResponseData();
+    }
+
+    protected function prepareConnection(): void
+    {
+        $this->gateway
+            ->setMethod(static::$method)
+            ->setUrl(static::$url);
     }
 }
