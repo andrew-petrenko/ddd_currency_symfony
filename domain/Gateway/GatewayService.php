@@ -10,6 +10,11 @@ use GuzzleHttp\Client;
 class GatewayService implements GatewayServiceInterface
 {
     /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
      * @var string
      */
     protected $requestMethod;
@@ -33,6 +38,11 @@ class GatewayService implements GatewayServiceInterface
      * @var ResponseData
      */
     protected $responseData;
+
+    public function __construct()
+    {
+        $this->client = new Client();
+    }
 
     /**
      * @throws InvalidRequestMethodException
@@ -58,7 +68,7 @@ class GatewayService implements GatewayServiceInterface
     public function connect(): GatewayServiceInterface
     {
         try {
-            $response = (new Client())->request($this->requestMethod, $this->url);
+            $response = $this->client->request($this->requestMethod, $this->url);
         } catch (\Exception $e) {
             throw new FailedToConnectException();
         }
