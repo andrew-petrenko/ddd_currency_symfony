@@ -11,10 +11,10 @@ class CurrencyController
     public function index(CurrencyServiceInterface $currencyService, CurrencyTransformer $transformer): JsonResponse
     {
         $currencies = $currencyService->getCurrencyFromBank();
+        $transformedCurrencies = $transformer->transformCollection($currencies->getCollection());
 
-        return new JsonResponse(
-            $transformer->transformCollection($currencies->getCollection()),
-            JsonResponse::HTTP_OK
-        );
+        return (new JsonResponse())
+            ->setData($transformedCurrencies)
+            ->setStatusCode(JsonResponse::HTTP_OK);
     }
 }
