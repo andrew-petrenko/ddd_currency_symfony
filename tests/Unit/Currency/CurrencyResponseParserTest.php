@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Currency\Service\Parser;
+namespace App\Tests\Unit\Currency;
 
 use Domain\Currency\Contracts\CurrencyResponseParserInterface;
 use Domain\Currency\CurrencyCollection;

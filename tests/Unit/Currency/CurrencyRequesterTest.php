@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Currency\Service\Requester;
+namespace App\Tests\Unit\Currency;
 
 use Domain\Currency\Contracts\CurrencyRequesterInterface;
 use Domain\Gateway\ResponseData;

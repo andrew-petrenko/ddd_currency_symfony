@@ -3,8 +3,8 @@
 namespace App\EventListener;
 
 use Domain\Currency\Exceptions\FailedToConnectToBankException;
-use Domain\Gateway\Exceptions\InvalidRequestMethodException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -18,8 +18,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
         if ($e instanceof FailedToConnectToBankException) {
             $response = $this->getFailedToConnectToBankExceptionResponse($e);
-        } elseif ($e instanceof InvalidRequestMethodException) {
-            $response = $this->getInvalidRequestMethodExceptionResponse($e);
+        } else {
+            $response = $this->defaultResponse($e, JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         $event->setResponse($response);

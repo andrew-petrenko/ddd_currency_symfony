@@ -4,7 +4,6 @@ namespace Domain\Gateway;
 
 use Domain\Gateway\Contracts\GatewayServiceInterface;
 use Domain\Gateway\Exceptions\FailedToConnectException;
-use Domain\Gateway\Exceptions\InvalidRequestMethodException;
 use GuzzleHttp\Client;
 
 class GatewayService implements GatewayServiceInterface
@@ -15,7 +14,7 @@ class GatewayService implements GatewayServiceInterface
     protected $client;
 
     /**
-     * @var string
+     * @var RequestMethod
      */
     protected $requestMethod;
 
@@ -23,16 +22,6 @@ class GatewayService implements GatewayServiceInterface
      * @var string
      */
     protected $url;
-
-    /**
-     * @var array
-     */
-    protected static $validMethods = [
-        'GET',
-        'POST',
-        'PUT',
-        'PATCH'
-    ];
 
     /**
      * @var ResponseData
@@ -44,13 +33,9 @@ class GatewayService implements GatewayServiceInterface
         $this->client = new Client();
     }
 
-    /**
-     * @throws InvalidRequestMethodException
-     */
-    public function setMethod(string $requestMethod): GatewayServiceInterface
+    public function setMethod(RequestMethod $requestMethod): GatewayServiceInterface
     {
-        $this->validateMethod($requestMethod);
-        $this->requestMethod = strtoupper($requestMethod);
+        $this->requestMethod = $requestMethod;
 
         return $this;
     }
@@ -68,7 +53,7 @@ class GatewayService implements GatewayServiceInterface
     public function connect(): GatewayServiceInterface
     {
         try {
-            $response = $this->client->request($this->requestMethod, $this->url);
+            $response = $this->client->request($this->requestMethod->value(), $this->url);
         } catch (\Exception $e) {
             throw new FailedToConnectException();
         }
@@ -81,15 +66,5 @@ class GatewayService implements GatewayServiceInterface
     public function getResponseData(): ResponseData
     {
         return $this->responseData;
-    }
-
-    /**
-     * @throws InvalidRequestMethodException
-     */
-    protected function validateMethod(string $requestMethod)
-    {
-        if (!in_array(strtoupper($requestMethod), static::$validMethods)) {
-            throw new InvalidRequestMethodException();
-        }
     }
 }

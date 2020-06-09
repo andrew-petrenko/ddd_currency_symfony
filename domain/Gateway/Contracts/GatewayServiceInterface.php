@@ -2,11 +2,12 @@
 
 namespace Domain\Gateway\Contracts;
 
+use Domain\Gateway\RequestMethod;
 use Domain\Gateway\ResponseData;
 
 interface GatewayServiceInterface
 {
-    public function setMethod(string $requestMethod): self;
+    public function setMethod(RequestMethod $requestMethod): self;
 
     public function setUrl(string $url): self;
 

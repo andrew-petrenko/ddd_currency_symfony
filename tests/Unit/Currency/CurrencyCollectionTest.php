@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Currency\Collection;
+namespace App\Tests\Unit\Currency;
 
 use Domain\Currency\Currency;
 use Domain\Currency\CurrencyCollection;
