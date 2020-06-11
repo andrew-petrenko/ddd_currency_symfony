@@ -39,12 +39,7 @@ class MonobankCurrencyResponseParser extends AbstractCurrencyResponseParser impl
 
     protected function validate(\stdClass $item): bool
     {
-        if (in_array($item->currencyCodeA, array_keys(self::VALID_BANK_ISO_CODES)) &&
-            in_array($item->currencyCodeB, array_values(self::VALID_BANK_ISO_CODES))
-        ) {
-            return true;
-        }
-
-        return false;
+        return in_array($item->currencyCodeA, array_keys(self::VALID_BANK_ISO_CODES))
+            && in_array($item->currencyCodeB, array_values(self::VALID_BANK_ISO_CODES));
     }
 }

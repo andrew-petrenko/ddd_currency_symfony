@@ -29,10 +29,6 @@ class PrivatBankCurrencyResponseParser extends AbstractCurrencyResponseParser im
 
     protected function validate(\stdClass $item): bool
     {
-        if (in_array($item->ccy, self::VALID_BANK_CODES)) {
-            return true;
-        }
-
-        return false;
+        return in_array($item->ccy, self::VALID_BANK_CODES);
     }
 }
