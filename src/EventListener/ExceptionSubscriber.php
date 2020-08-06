@@ -2,7 +2,7 @@
 
 namespace App\EventListener;
 
-use Domain\Core\Exceptions\Http\HttpException;
+use Domain\Core\Exceptions\Contracts\DomainHttpExceptionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -14,7 +14,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
     {
         $e = $event->getThrowable();
 
-        if ($e instanceof HttpException) {
+        if ($e instanceof DomainHttpExceptionInterface) {
             $response = self::jsonResponse($e, $e->getStatusCode());
         } else {
             $response = self::jsonResponse($e, JsonResponse::HTTP_INTERNAL_SERVER_ERROR);

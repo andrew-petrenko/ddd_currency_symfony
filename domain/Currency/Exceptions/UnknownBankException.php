@@ -2,7 +2,7 @@
 
 namespace Domain\Currency\Exceptions;
 
-use Domain\Core\Exceptions\Http\HttpBadRequestException;
+use Domain\Core\Exceptions\Http\ClientExceptions\HttpBadRequestException;
 
 class UnknownBankException extends HttpBadRequestException
 {

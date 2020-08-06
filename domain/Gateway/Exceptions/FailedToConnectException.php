@@ -2,7 +2,7 @@
 
 namespace Domain\Gateway\Exceptions;
 
-use Domain\Core\Exceptions\Http\HttpBadGatewayException;
+use Domain\Core\Exceptions\Http\ServerExceptions\HttpBadGatewayException;
 
 class FailedToConnectException extends HttpBadGatewayException
 {
