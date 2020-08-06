@@ -4,10 +4,7 @@ namespace Domain\Utils;
 
 abstract class AbstractEnum
 {
-    /**
-     * @var string
-     */
-    protected $value;
+    protected string $value;
 
     public static function __callStatic(string $name, array $args): self
     {

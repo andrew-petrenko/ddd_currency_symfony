@@ -7,7 +7,7 @@ class CurrencyCollection
     /**
      * @var Currency[]
      */
-    private $currencies;
+    private array $currencies;
 
     /**
      * @param Currency[] $currencies
@@ -28,10 +28,15 @@ class CurrencyCollection
         $this->currencies[] = $currency;
     }
 
+    public function length(): int
+    {
+        return count($this->currencies);
+    }
+
     /**
      * @return Currency[]
      */
-    public function getCollection(): array
+    public function all(): array
     {
         return $this->currencies;
     }

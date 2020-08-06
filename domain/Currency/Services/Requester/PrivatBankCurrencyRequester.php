@@ -6,5 +6,5 @@ use Domain\Currency\Contracts\CurrencyRequesterInterface;
 
 class PrivatBankCurrencyRequester extends AbstractCurrencyRequester implements CurrencyRequesterInterface
 {
-    protected static $url = 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5';
+    protected static string $url = 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5';
 }

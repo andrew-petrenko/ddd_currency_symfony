@@ -8,54 +8,23 @@ use GuzzleHttp\Client;
 
 class GatewayService implements GatewayServiceInterface
 {
-    /**
-     * @var Client
-     */
-    protected $client;
-
-    /**
-     * @var RequestMethod
-     */
-    protected $requestMethod;
-
-    /**
-     * @var string
-     */
-    protected $url;
-
-    /**
-     * @var ResponseData
-     */
-    protected $responseData;
+    protected Client $client;
+    protected ResponseData $responseData;
 
     public function __construct()
     {
         $this->client = new Client();
     }
 
-    public function setMethod(RequestMethod $requestMethod): GatewayServiceInterface
-    {
-        $this->requestMethod = $requestMethod;
-
-        return $this;
-    }
-
-    public function setUrl(string $url): GatewayServiceInterface
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
     /**
-     * @throws FailedToConnectException
+     * @inheritDoc
      */
-    public function connect(): GatewayServiceInterface
+    public function request(RequestMethod $method, string $url, array $options = []): GatewayServiceInterface
     {
         try {
-            $response = $this->client->request($this->requestMethod->value(), $this->url);
+            $response = $this->client->request($method->value(), $url);
         } catch (\Exception $e) {
-            throw new FailedToConnectException();
+            throw new FailedToConnectException($e->getMessage());
         }
 
         $this->responseData = new ResponseData($response);

@@ -4,25 +4,10 @@ namespace Domain\Currency;
 
 class Currency
 {
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var \DateTime
-     */
-    private $date;
-
-    /**
-     * @var float
-     */
-    private $sellPrice;
-
-    /**
-     * @var float
-     */
-    private $buyPrice;
+    private string $name;
+    private \DateTime $date;
+    private float $sellPrice;
+    private float $buyPrice;
 
     public function __construct(string $name, \DateTime $date, float $buyPrice, float $sellPrice)
     {

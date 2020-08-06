@@ -2,7 +2,9 @@
 
 namespace Domain\Currency\Exceptions;
 
-class FailedToConnectToBankException extends \Exception
+use Domain\Gateway\Exceptions\FailedToConnectException;
+
+class FailedToConnectToBankException extends FailedToConnectException
 {
     protected $message = 'Failed to connect to bank';
 }

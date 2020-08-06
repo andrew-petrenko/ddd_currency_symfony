@@ -6,5 +6,5 @@ use Domain\Currency\Contracts\CurrencyRequesterInterface;
 
 class MonobankCurrencyRequester extends AbstractCurrencyRequester implements CurrencyRequesterInterface
 {
-    protected static $url = 'https://api.monobank.ua/bank/currency';
+    protected static string $url = 'https://api.monobank.ua/bank/currency';
 }

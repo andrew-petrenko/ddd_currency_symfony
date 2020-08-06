@@ -9,10 +9,7 @@ use Domain\Gateway\ResponseData;
 
 abstract class AbstractCurrencyResponseParser implements CurrencyResponseParserInterface
 {
-    /**
-     * @var CurrencyCollection
-     */
-    protected $currencyCollection;
+    protected CurrencyCollection $currencyCollection;
 
     public function __construct()
     {
@@ -33,15 +30,15 @@ abstract class AbstractCurrencyResponseParser implements CurrencyResponseParserI
     protected function addValidToCollection(array $data): void
     {
         foreach ($data as $item) {
-            if ($this->validate($item)) {
-                $this->currencyCollection->add($this->makeCurrency($item));
-            } elseif (count($this->currencyCollection->getCollection()) > 3) {
+            if (static::isValid($item)) {
+                $this->currencyCollection->add(static::makeCurrency($item));
+            } elseif ($this->currencyCollection->length() >= 3) {
                 break;
             }
         }
     }
 
-    abstract protected function makeCurrency(\stdClass $item): Currency;
+    abstract protected static function makeCurrency(\stdClass $item): Currency;
 
-    abstract protected function validate(\stdClass $item): bool;
+    abstract protected static function isValid(\stdClass $item): bool;
 }

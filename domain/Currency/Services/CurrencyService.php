@@ -2,36 +2,52 @@
 
 namespace Domain\Currency\Services;
 
-use Domain\Currency\Contracts\CurrencyRequesterInterface;
-use Domain\Currency\Contracts\CurrencyResponseParserInterface;
 use Domain\Currency\Contracts\CurrencyServiceInterface;
 use Domain\Currency\CurrencyCollection;
+use Domain\Currency\Enums\Bank;
+use Domain\Currency\Exceptions\UnknownBankException;
+use Domain\Currency\Services\Factory\CurrencyProcessorsFactoryInterface;
+use Domain\Currency\Services\Factory\MonobankProcessorsFactory;
+use Domain\Currency\Services\Factory\PrivatBankProcessorsFactory;
+use Domain\Gateway\Contracts\GatewayServiceInterface;
 
 class CurrencyService implements CurrencyServiceInterface
 {
-    /**
-     * @var CurrencyRequesterInterface
-     */
-    private $currencyRequester;
+    private GatewayServiceInterface $gatewayService;
 
-    /**
-     * @var CurrencyResponseParserInterface
-     */
-    private $responseParser;
-
-    public function __construct(
-        CurrencyRequesterInterface $currencyRequester,
-        CurrencyResponseParserInterface $responseParser
-    ) {
-        $this->currencyRequester = $currencyRequester;
-        $this->responseParser = $responseParser;
+    public function __construct(GatewayServiceInterface $gatewayService)
+    {
+        $this->gatewayService = $gatewayService;
     }
 
-    public function getCurrencyFromBank(): CurrencyCollection
+    /**
+     * @inheritDoc
+     */
+    public function getCurrencyFromBank(Bank $bank): CurrencyCollection
     {
-        $responseData = $this->currencyRequester->request();
-        $this->responseParser->parse($responseData);
+        $factory = $this->getFactory($bank);
 
-        return $this->responseParser->getParsedCollection();
+        $responseData = $factory->getRequester()->request();
+        $responseParser = $factory->getResponseParser();
+        $responseParser->parse($responseData);
+
+        return $responseParser->getParsedCollection();
+    }
+
+    /**
+     * @throws UnknownBankException
+     */
+    protected function getFactory(Bank $bank): CurrencyProcessorsFactoryInterface
+    {
+        switch ($bank) {
+            case Bank::mono():
+                return new MonobankProcessorsFactory($this->gatewayService);
+
+            case Bank::privat():
+                return new PrivatBankProcessorsFactory($this->gatewayService);
+
+            default:
+                throw new UnknownBankException();
+        }
     }
 }

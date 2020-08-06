@@ -6,42 +6,28 @@ use Domain\Currency\Contracts\CurrencyRequesterInterface;
 use Domain\Currency\Exceptions\FailedToConnectToBankException;
 use Domain\Gateway\Contracts\GatewayServiceInterface;
 use Domain\Gateway\Exceptions\FailedToConnectException;
-use Domain\Gateway\GatewayService;
 use Domain\Gateway\RequestMethod;
 use Domain\Gateway\ResponseData;
 
 abstract class AbstractCurrencyRequester implements CurrencyRequesterInterface
 {
-    /**
-     * @var GatewayService
-     */
-    private $gateway;
-
-    /**
-     * @var RequestMethod
-     */
-    protected static $method;
-
-    /**
-     * @var string
-     */
-    protected static $url;
+    private GatewayServiceInterface $gateway;
+    protected static RequestMethod $method;
+    protected static string $url;
 
     public function __construct(GatewayServiceInterface $gateway)
     {
-        self::$method = RequestMethod::get();
-
         $this->gateway = $gateway;
-        $this->prepareConnection();
+        self::$method = static::defaultRequestMethod();
     }
 
     /**
-     * @throws FailedToConnectToBankException
+     * @inheritDoc
      */
     public function request(): ResponseData
     {
         try {
-            $this->gateway->connect();
+            $this->gateway->request(static::$method, static::$url);
         } catch (FailedToConnectException $e) {
             throw new FailedToConnectToBankException();
         }
@@ -49,10 +35,8 @@ abstract class AbstractCurrencyRequester implements CurrencyRequesterInterface
         return $this->gateway->getResponseData();
     }
 
-    protected function prepareConnection(): void
+    protected static function defaultRequestMethod(): RequestMethod
     {
-        $this->gateway
-            ->setMethod(static::$method)
-            ->setUrl(static::$url);
+        return RequestMethod::get();
     }
 }

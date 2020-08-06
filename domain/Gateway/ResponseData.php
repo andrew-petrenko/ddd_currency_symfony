@@ -6,10 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class ResponseData
 {
-    /**
-     * @var ResponseInterface
-     */
-    private $response;
+    private ResponseInterface $response;
 
     public function __construct(ResponseInterface $response)
     {
@@ -21,6 +18,9 @@ class ResponseData
         return $this->response;
     }
 
+    /**
+     * @return \stdClass[]|array
+     */
     public function getDecodedResponseContent(): array
     {
         return json_decode($this->response->getBody()->getContents());

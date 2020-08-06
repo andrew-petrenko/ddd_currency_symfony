@@ -8,8 +8,11 @@ abstract class AbstractTransformer
 
     public function transformCollection(array $data): array
     {
-        return array_map(function ($item) {
-            return $this->transform($item);
-        }, $data);
+        $result = [];
+        foreach ($data as $item) {
+            $result[] = $this->transform($item);
+        }
+
+        return $result;
     }
 }

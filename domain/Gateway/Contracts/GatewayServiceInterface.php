@@ -2,16 +2,16 @@
 
 namespace Domain\Gateway\Contracts;
 
+use Domain\Gateway\Exceptions\FailedToConnectException;
 use Domain\Gateway\RequestMethod;
 use Domain\Gateway\ResponseData;
 
 interface GatewayServiceInterface
 {
-    public function setMethod(RequestMethod $requestMethod): self;
-
-    public function setUrl(string $url): self;
-
-    public function connect(): self;
+    /**
+     * @throws FailedToConnectException
+     */
+    public function request(RequestMethod $method, string $url, array $options = []): self;
 
     public function getResponseData(): ResponseData;
 }

@@ -7,17 +7,17 @@ use Domain\Currency\Currency;
 
 class PrivatBankCurrencyResponseParser extends AbstractCurrencyResponseParser implements CurrencyResponseParserInterface
 {
-    const BANK_CODE_USD = 'USD';
-    const BANK_CODE_EUR = 'EUR';
-    const BANK_CODE_RUR = 'RUR';
+    private const BANK_CODE_USD = 'USD';
+    private const BANK_CODE_EUR = 'EUR';
+    private const BANK_CODE_RUR = 'RUR';
 
-    const VALID_BANK_CODES = [
+    private const VALID_BANK_CODES = [
         self::BANK_CODE_USD,
         self::BANK_CODE_EUR,
         self::BANK_CODE_RUR
     ];
 
-    protected function makeCurrency(\stdClass $item): Currency
+    protected static function makeCurrency(\stdClass $item): Currency
     {
         return new Currency(
             $item->ccy,
@@ -27,7 +27,7 @@ class PrivatBankCurrencyResponseParser extends AbstractCurrencyResponseParser im
         );
     }
 
-    protected function validate(\stdClass $item): bool
+    protected static function isValid(\stdClass $item): bool
     {
         return in_array($item->ccy, self::VALID_BANK_CODES);
     }

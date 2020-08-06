@@ -2,7 +2,9 @@
 
 namespace Domain\Gateway\Exceptions;
 
-class FailedToConnectException extends \Exception
+use Domain\Core\Exceptions\Http\HttpBadGatewayException;
+
+class FailedToConnectException extends HttpBadGatewayException
 {
     protected $message = 'Failed to connect';
 }

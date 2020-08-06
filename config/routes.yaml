@@ -6,7 +6,12 @@ controllers:
   resource: '../src/Controller'
   type: 'annotation'
 
-currency:
-  path: /currency
-  controller: App\Controller\CurrencyController::index
+currencies-mono:
+  path: /api/currencies/mono
+  controller: App\Controller\CurrencyController::monoBank
+  methods: GET
+
+currencies-privat:
+  path: /api/currencies/privat
+  controller: App\Controller\CurrencyController::privatBank
   methods: GET
