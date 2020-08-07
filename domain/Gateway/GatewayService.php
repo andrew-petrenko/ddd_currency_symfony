@@ -9,7 +9,6 @@ use GuzzleHttp\Client;
 class GatewayService implements GatewayServiceInterface
 {
     protected Client $client;
-    protected ResponseData $responseData;
 
     public function __construct()
     {
@@ -19,7 +18,7 @@ class GatewayService implements GatewayServiceInterface
     /**
      * @inheritDoc
      */
-    public function request(RequestMethod $method, string $url, array $options = []): GatewayServiceInterface
+    public function request(RequestMethod $method, string $url, array $options = []): ResponseData
     {
         try {
             $response = $this->client->request($method->value(), $url);
@@ -27,13 +26,6 @@ class GatewayService implements GatewayServiceInterface
             throw new FailedToConnectException($e->getMessage());
         }
 
-        $this->responseData = new ResponseData($response);
-
-        return $this;
-    }
-
-    public function getResponseData(): ResponseData
-    {
-        return $this->responseData;
+        return new ResponseData($response);
     }
 }

@@ -28,12 +28,12 @@ abstract class AbstractCurrencyRequester implements CurrencyRequesterInterface
     public function request(): ResponseData
     {
         try {
-            $this->gateway->request(static::$method, static::$url);
+            $response = $this->gateway->request(static::$method, static::$url);
         } catch (FailedToConnectException $e) {
             throw new FailedToConnectToBankException();
         }
 
-        return $this->gateway->getResponseData();
+        return $response;
     }
 
     protected static function defaultRequestMethod(): RequestMethod

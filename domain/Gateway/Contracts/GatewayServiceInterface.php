@@ -11,7 +11,5 @@ interface GatewayServiceInterface
     /**
      * @throws FailedToConnectException
      */
-    public function request(RequestMethod $method, string $url, array $options = []): self;
-
-    public function getResponseData(): ResponseData;
+    public function request(RequestMethod $method, string $url, array $options = []): ResponseData;
 }
