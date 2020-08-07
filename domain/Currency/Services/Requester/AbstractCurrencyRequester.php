@@ -11,9 +11,10 @@ use Domain\Gateway\ResponseData;
 
 abstract class AbstractCurrencyRequester implements CurrencyRequesterInterface
 {
-    private GatewayServiceInterface $gateway;
     protected static RequestMethod $method;
     protected static string $url;
+
+    private GatewayServiceInterface $gateway;
 
     public function __construct(GatewayServiceInterface $gateway)
     {

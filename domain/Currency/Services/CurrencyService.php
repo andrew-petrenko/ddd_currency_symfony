@@ -22,6 +22,7 @@ class CurrencyService implements CurrencyServiceInterface
 
     /**
      * @inheritDoc
+     * @throws UnknownBankException
      */
     public function getCurrencyFromBank(Bank $bank): CurrencyCollection
     {

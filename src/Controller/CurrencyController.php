@@ -9,15 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CurrencyController
 {
-    /**
-     * @var CurrencyServiceInterface
-     */
-    private $currencyService;
-
-    /**
-     * @var CurrencyTransformer
-     */
-    private $transformer;
+    private CurrencyServiceInterface $currencyService;
+    private CurrencyTransformer $transformer;
 
     public function __construct(CurrencyServiceInterface $currencyService, CurrencyTransformer $transformer)
     {

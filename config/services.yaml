@@ -35,10 +35,4 @@ services:
     Domain\:
         resource: '../domain/*'
 
-#    Domain\Currency\Contracts\CurrencyRequesterInterface: '@Domain\Currency\Services\Requester\PrivatBankCurrencyRequester'
-#    Domain\Currency\Contracts\CurrencyResponseParserInterface: '@Domain\Currency\Services\ResponseParser\PrivatBankCurrencyResponseParser'
-
-    Domain\Currency\Contracts\CurrencyRequesterInterface: '@Domain\Currency\Services\Requester\MonobankCurrencyRequester'
-    Domain\Currency\Contracts\CurrencyResponseParserInterface: '@Domain\Currency\Services\ResponseParser\MonobankCurrencyResponseParser'
-
     Domain\Gateway\Contracts\GatewayServiceInterface: '@Domain\Gateway\GatewayService'
